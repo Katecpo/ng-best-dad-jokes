@@ -7,12 +7,14 @@ import { HomeComponent } from './home/home.component';
 import { PostComponent } from './post/post.component';
 import {HttpClientModule} from "@angular/common/http";
 import {PostService} from "./services/post.service";
+import { ExceptPipePipe } from './pipes/except-pipe.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    PostComponent
+    PostComponent,
+    ExceptPipePipe
   ],
   imports: [
     BrowserModule,
