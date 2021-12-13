@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { postsMock } from '../data/posts.mock';
+import {Component, Input, OnInit} from '@angular/core';
 import { Post } from '../models/post.interface';
+import {PostService} from "../services/post.service";
 
 @Component({
   selector: 'app-home',
@@ -9,12 +9,15 @@ import { Post } from '../models/post.interface';
 })
 export class HomeComponent implements OnInit {
   title = 'ng-best-dad-jokes';
-  posts: Post[] = postsMock
+  posts: Post[] = [];
+  @Input() isLoading = true;
 
-  constructor() { }
+  constructor(private _postService: PostService) { }
 
-  ngOnInit(): void {
-
+  async ngOnInit(): Promise<void> {
+    this.posts = await this._postService.getAllPosts();
+    this.isLoading = false;
   }
+
 
 }

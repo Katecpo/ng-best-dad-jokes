@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { postsMock } from '../data/posts.mock';
 import { Post } from '../models/post.interface';
+import {PostService} from "../services/post.service";
 
 @Component({
   selector: 'app-post',
@@ -9,11 +9,15 @@ import { Post } from '../models/post.interface';
   styleUrls: ['./post.component.scss'],
 })
 export class PostComponent implements OnInit {
-  posts: Post[] = postsMock
+  posts: Post[] = [];
   post?: Post;
-  constructor(private route: ActivatedRoute) {}
+  @Input() isLoading = true;
 
-  ngOnInit(): void {
-    this.post = postsMock.find((post) => post.id === +this.route.snapshot.params['id']);
+  constructor(private _postService: PostService, private route: ActivatedRoute) {}
+
+  async ngOnInit(): Promise<void> {
+    this.posts = await this._postService.getAllPosts();
+    this.post = this.posts.find((post) => post.id === +this.route.snapshot.params['id']);
+    this.isLoading = false;
   }
 }
